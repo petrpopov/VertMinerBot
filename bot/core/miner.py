@@ -78,24 +78,12 @@ class Miner:
             logger.error(f"{self.session_name} | Unknown error during Authorization: {error}")
             await asyncio.sleep(delay=7)
 
-    # async def get_data(self, http_client: aiohttp.ClientSession) -> Dict[str, Any]:
-    #     try:
-    #         response = await http_client.post(
-    #             url='https:/api3.thevertus.app/users/get-data',
-    #             json={})
-    #         response.raise_for_status()
-    #
-    #         response_json = await response.json()
-    #         return response_json
-    #     except Exception as error:
-    #         logger.error(f"{self.session_name} | Unknown error while getting chat id: {error}")
-    #         await asyncio.sleep(delay=7)
-
     async def get_data(self, http_client: aiohttp.ClientSession) -> Dict[str, Any]:
+        url = f"{settings.API_URL}/users/get-data"
         try:
             async with http_client.request(
                     method="POST",
-                    url="https://api.thevertus.app/users/get-data",
+                    url=url,
                     data={},
             ) as response:
                 response.raise_for_status()
@@ -106,29 +94,28 @@ class Miner:
             logger.error(f"{self.session_name} | Unknown error while getting account data: {error}")
             await asyncio.sleep(delay=7)
 
-    # async def claim(self, http_client: aiohttp.ClientSession) -> float:
-    #     url=f'https://api.thevertus.app/game-service/collect'
-    #     try:
-    #         response = await http_client.post(
-    #             url=url,
-    #             json={})
-    #         response.raise_for_status()
-    #
-    #         response_json = await response.json()
-    #         new_balance = response_json['newBalance']
-    #
-    #         return float(new_balance / 1000000000000000000)
-    #     except Exception as error:
-    #         logger.error(f"{self.session_name} | Unknown error while claiming: {error}")
-    #         await asyncio.sleep(delay=7)
-    #
-    #         return -1.0
+    async def get_missions(self, http_client: aiohttp.ClientSession) -> str:
+        url = f"{settings.API_URL}/missions/count"
+        try:
+            async with http_client.request(
+                    method="GET",
+                    url=url,
+                    data={},
+            ) as response:
+                response.raise_for_status()
+
+                text = await response.text()
+                return text
+        except Exception as error:
+            logger.error(f"{self.session_name} | Unknown error while getting missions: {error}")
+            await asyncio.sleep(delay=7)
 
     async def claim(self, http_client: aiohttp.ClientSession) -> float:
+        url = f"{settings.API_URL}/game-service/collect"
         try:
             async with http_client.request(
                     method="POST",
-                    url="https://api3.thevertus.app/game-service/collect",
+                    url=url,
                     data={},
             ) as response:
                 response.raise_for_status()
@@ -143,10 +130,11 @@ class Miner:
             return -1.0
 
     async def daily_claim(self, http_client: aiohttp.ClientSession) -> Optional[Dict[str, Any]]:
+        url = f"{settings.API_URL}/users/claim-daily"
         try:
             async with http_client.request(
                     method="POST",
-                    url="https://api3.thevertus.app/users/claim-daily",
+                    url=url,
                     data={},
             ) as response:
                 response.raise_for_status()
@@ -159,29 +147,12 @@ class Miner:
 
             return None
 
-    # async def upgrade_speed(self, http_client: aiohttp.ClientSession) -> Optional[Dict[str, Any]]:
-    #     url=f'https://api.thevertus.app/users/upgrade'
-    #     try:
-    #         response = await http_client.post(
-    #             url=url,
-    #             json={'upgrade': 'farm'})
-    #         response.raise_for_status()
-    #
-    #         response_json = await response.json()
-    #         status = response_json
-    #
-    #         return status
-    #     except Exception as error:
-    #         logger.error(f"{self.session_name} | Unknown error while upgrading speed: {error}")
-    #         await asyncio.sleep(delay=7)
-    #
-    #         return None
-
     async def upgrade_speed(self, http_client: aiohttp.ClientSession) -> Optional[Dict[str, Any]]:
+        url = f"{settings.API_URL}/users/upgrade"
         try:
             async with http_client.request(
                     method="POST",
-                    url="https://api3.thevertus.app/users/upgrade",
+                    url=url,
                     json={'upgrade': 'farm'},
             ) as response:
                 response.raise_for_status()
@@ -194,29 +165,12 @@ class Miner:
 
             return None
 
-    # async def upgrade_storage(self, http_client: aiohttp.ClientSession) -> Optional[Dict[str, Any]]:
-    #     url=f'https://api.thevertus.app/users/upgrade'
-    #     try:
-    #         response = await http_client.post(
-    #             url=url,
-    #             json={'upgrade': 'storage'})
-    #         response.raise_for_status()
-    #
-    #         response_json = await response.json()
-    #         status = response_json
-    #
-    #         return status
-    #     except Exception as error:
-    #         logger.error(f"{self.session_name} | Unknown error while upgrading speed: {error}")
-    #         await asyncio.sleep(delay=7)
-    #
-    #         return None
-
     async def upgrade_storage(self, http_client: aiohttp.ClientSession) -> Optional[Dict[str, Any]]:
+        url = f"{settings.API_URL}/users/upgrade"
         try:
             async with http_client.request(
                     method="POST",
-                    url="https://api3.thevertus.app/users/upgrade",
+                    url=url,
                     json={'upgrade': 'storage'},
             ) as response:
                 response.raise_for_status()
@@ -229,29 +183,12 @@ class Miner:
 
             return None
 
-    # async def upgrade_population(self, http_client: aiohttp.ClientSession) -> Optional[Dict[str, Any]]:
-    #     url=f'https://api.thevertus.app/users/upgrade'
-    #     try:
-    #         response = await http_client.post(
-    #             url=url,
-    #             json={'upgrade': 'population'})
-    #         response.raise_for_status()
-    #
-    #         response_json = await response.json()
-    #         status = response_json
-    #
-    #         return status
-    #     except Exception as error:
-    #         logger.error(f"{self.session_name} | Unknown error while upgrading speed: {error}")
-    #         await asyncio.sleep(delay=7)
-    #
-    #         return None
-
     async def upgrade_population(self, http_client: aiohttp.ClientSession) -> Optional[Dict[str, Any]]:
+        url = f"{settings.API_URL}/users/upgrade"
         try:
             async with http_client.request(
                     method="POST",
-                    url="https://api3.thevertus.app/users/upgrade",
+                    url=url,
                     json={'upgrade': 'population'},
             ) as response:
                 response.raise_for_status()
@@ -325,7 +262,6 @@ class Miner:
     async def run(self, proxy: str | None) -> None:
         bearer = None
         access_token_created_time = 0
-        sleep_time = settings.DEFAULT_SLEEP
         proxy_conn = ProxyConnector().from_url(proxy) if proxy else None
 
         async with (aiohttp.ClientSession(headers=headers, connector=proxy_conn) as http_client):
@@ -344,6 +280,7 @@ class Miner:
                         access_token_created_time = time.time()
 
                     account = await self.get_data(http_client=http_client)
+                    await self.get_missions(http_client=http_client)
                     balance = account['user']['balance'] / 1000000000000000000
                     storage = account['user']['vertStorage'] / 1000000000000000000
 
@@ -372,7 +309,7 @@ class Miner:
                             logger.info(f"{self.session_name} | Retry <y>{retry+1}</y> of <e>{settings.CLAIM_RETRY_COUNT}</e>")
                             new_balance = await self.claim(http_client=http_client)
                             if new_balance >= 0:
-                                logger.success(f'{self.session_name} | claimed successful, new balance is {new_balance:.6f} VERT')
+                                logger.success(f'{self.session_name} | Claimed successful, new balance is {new_balance:.6f} VERT')
                                 balance = new_balance
                                 break
 

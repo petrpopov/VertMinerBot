@@ -6,6 +6,7 @@ class Settings(BaseSettings):
 
     API_ID: int
     API_HASH: str
+    API_URL: str = "https://api.thevertus.app"
 
     CLAIM_MIN_PERCENT: int = 75
     CLAIM_RETRY_COUNT: int = 3
