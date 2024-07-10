@@ -279,8 +279,12 @@ class Miner:
 
                         access_token_created_time = time.time()
 
+                    logger.info(f"{self.session_name} | Loading account info")
                     account = await self.get_data(http_client=http_client)
-                    await self.get_missions(http_client=http_client)
+                    if settings.LOAD_MISSIONS:
+                        logger.info(f"{self.session_name} | Loading missions")
+                        await self.get_missions(http_client=http_client)
+
                     balance = account['user']['balance'] / 1000000000000000000
                     storage = account['user']['vertStorage'] / 1000000000000000000
 

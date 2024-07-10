@@ -23,7 +23,7 @@ start_text = """
 Select an action:
 
     1. Create session
-    2. Run clicker
+    2. Run miner
 """
 
 

@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     API_HASH: str
     API_URL: str = "https://api.thevertus.app"
 
+    LOAD_MISSIONS: bool = False
     CLAIM_MIN_PERCENT: int = 75
     CLAIM_RETRY_COUNT: int = 3
 
